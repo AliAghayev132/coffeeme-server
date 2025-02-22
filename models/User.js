@@ -3,7 +3,7 @@ import { accountStatus, gender, membershipLevel } from "#constants/enums/user.js
 // Variables
 import { Schema, Model } from "#constants/variables.js";
 // Schemas
-import balanceActivitySchema from "./User/BalanceActivitySchema.js";
+import balanceActivitySchema from "./Partner/RecentCloseNotificationSchema.js";
 
 
 const userSchema = new Schema(

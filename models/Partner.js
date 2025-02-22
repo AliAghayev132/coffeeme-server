@@ -3,7 +3,7 @@ import { roles } from "#constants/enums/partner.js";
 // Variables
 import { Schema, Model } from "#constants/variables.js";
 // Schemas
-import RecentCloseNotificationSchema from "./User/BalanceActivitySchema.js";
+import RecentCloseNotificationSchema from "./Partner/RecentCloseNotificationSchema.js";
 
 
 const PartnerSchema = new Schema({

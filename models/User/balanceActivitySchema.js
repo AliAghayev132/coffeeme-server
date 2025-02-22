@@ -1,9 +1,24 @@
 // Variables
 import { Schema } from "#constants/variables.js";
 
-const RecentCloseNotificationSchema = new Schema({
-    date: { type: Date, default: Date.now },
-    user: { type: Schema.Types.ObjectId, ref: "User" },
+const BalanceActivitySchema = new Schema({
+    category: {
+        type: String,
+        enum: ["refund", "topUp", "refer", "order", "gift", "coupon"],
+        required: true,
+    },
+    title: {
+        type: String,
+        required: true,
+    },
+    date: {
+        type: Date,
+        default: Date.now(),
+    },
+    amount: {
+        type: Number,
+        required: true,
+    },
 });
 
-export default RecentCloseNotificationSchema;
+export default BalanceActivitySchema;
