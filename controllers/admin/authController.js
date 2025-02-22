@@ -29,7 +29,6 @@ const refreshAccessToken = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { password, username } = req.body;
-        console.log({ password, username });
 
 
         const admin = await Admin.findOne({ username });
@@ -68,11 +67,12 @@ const changePassword = async (req, res) => {
         const admin = await Admin.findById(id);
 
         const { newPassword, oldPassword } = req.body;
+        console.log({ newPassword, oldPassword });
+
 
         if (!oldPassword || !newPassword) {
             return res.status(400).json({ success: false, message: MessagesService.validation.V100 });
         }
-
 
         const isMatch = await HashService.Compare(oldPassword, admin.password);
 

@@ -14,7 +14,7 @@
         "E405": "Otp not found",
         "E406": "User not found",
         "E407": "Invalid credentials",
-        "E408": "Category not found",
+        "E408": "Partner not found",
         "E409": "File is missing",
         "E500": "Internal server error"
     },

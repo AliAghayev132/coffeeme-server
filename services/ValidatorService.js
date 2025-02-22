@@ -1,3 +1,9 @@
+// Enums
+import { roles } from "#constants/enums/partner.js";
+
+// Models
+import PartnerAccount from "#models/Partner/PartnerAccount.js";
+
 class ValidatorService {
     static validateEmail(email) {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -44,7 +50,7 @@ class ValidatorService {
             return { isValid: false, message: "First name must only contain letters and cannot be empty." };
         }
 
-        if (!secondName) { 
+        if (!secondName) {
             return { isValid: false, message: "Second name must only contain letters and cannot be empty." };
         }
 
@@ -74,64 +80,95 @@ class ValidatorService {
         if (!name || typeof name !== "string" || name.trim().length === 0) {
             return { isValid: false, message: "Shop name is required and must be a valid string." };
         }
-    
+
         if (!address || typeof address !== "string" || address.trim().length === 0) {
             return { isValid: false, message: "Shop address is required and must be a valid string." };
         }
-    
+
         if (!shortAddress || typeof shortAddress !== "string" || shortAddress.trim().length === 0) {
             return { isValid: false, message: "Short address is required and must be a valid string." };
         }
-    
+
         // Location validation
         if (!location || typeof location !== "object" || !location.coordinates) {
             return { isValid: false, message: "Location must be an object with coordinates." };
         }
-    
+
         const { latitude, longitude } = location.coordinates;
-    
+
         if (typeof latitude !== "number" || latitude < -90 || latitude > 90) {
             return { isValid: false, message: "Latitude must be a number between -90 and 90." };
         }
-    
+
         if (typeof longitude !== "number" || longitude < -180 || longitude > 180) {
             return { isValid: false, message: "Longitude must be a number between -180 and 180." };
         }
-    
+
         // Discount rate validation
         if (typeof discountRate !== "number" || discountRate < 0 || discountRate > 100) {
             return { isValid: false, message: "Discount rate must be a number between 0 and 100." };
         }
-    
+
         // Operating hours validation
         if (!operatingHours || typeof operatingHours !== "object" || !operatingHours.open || !operatingHours.close) {
             return { isValid: false, message: "Operating hours must have 'open' and 'close' times." };
         }
-    
+
         const openHour = parseInt(operatingHours.open, 10);
         const closeHour = parseInt(operatingHours.close, 10);
-    
+
         if (isNaN(openHour) || openHour < 0 || openHour > 23) {
             return { isValid: false, message: "Open time must be a valid hour (0-23)." };
         }
-    
+
         if (isNaN(closeHour) || closeHour < 0 || closeHour > 23) {
             return { isValid: false, message: "Close time must be a valid hour (0-23)." };
         }
-    
+
         // Settings validation
         if (settings && typeof settings === "object" && settings.machineLearning) {
             if (typeof settings.machineLearning.isWorking !== "boolean") {
                 return { isValid: false, message: "Machine learning setting 'isWorking' must be a boolean." };
             }
-    
+
             if (typeof settings.machineLearning.startingLimit !== "number" || settings.machineLearning.startingLimit < 0) {
                 return { isValid: false, message: "Machine learning 'startingLimit' must be a positive number." };
             }
         }
-    
+
         return { isValid: true, message: "Shop validation successful!" };
     }
+
+    static async validatePartnerAccountData({ fullName, username, password, role }) {
+        // Validate full name
+        if (!fullName || typeof fullName !== "string" || fullName.trim().length === 0) {
+            return { isValid: false, message: "Full name is required and must be a valid string." };
+        }
+    
+        // Validate username
+        if (!username || typeof username !== "string" || username.trim().length === 0) {
+            return { isValid: false, message: "Username is required and must be a valid string." };
+        }
+    
+        // Check if username already exists
+        const existingUsername = await PartnerAccount.findOne({ username });
+        if (existingUsername) {
+            return { isValid: false, message: "Username already exists. Please choose a different username." };
+        }
+    
+        // Validate password (basic check, you can add more checks for strength)
+        if (!password || typeof password !== "string" || password.trim().length === 0) {
+            return { isValid: false, message: "Password is required and must be a valid string." };
+        }
+    
+        // Validate role (checking if it's one of the allowed roles)
+        const validRoles = roles;
+        if (!role || !validRoles.includes(role)) {
+            return { isValid: false, message: "Role must be one of the following: seller, admin, or manager." };
+        }
+    
+        return { isValid: true, message: "Partner account validation successful!" };
+    };
 
 }
 

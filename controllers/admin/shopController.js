@@ -8,6 +8,7 @@ import { ValidatorService } from "#services/ValidatorService.js";
 import { FileUploadService } from "#services/FileUploadService.js";
 import { FileControlService } from "#services/FileControlService.js";
 // Utils
+import { partnerCreate } from "#utils/admin/partnerCreate.js";
 import { addActivityToAdmin } from "#utils/admin/addActivity.js";
 
 
@@ -86,7 +87,10 @@ const createNewShop = async (req, res) => {
         newShop.coverPhoto = coverPhoto.name;
 
         // Kaydet
+
         await newShop.save();
+
+        partnerCreate({ shopId: newShop._id });
 
         return res.status(201).json({ success: true, message: MessagesService.success.S201, shop: newShop });
     } catch (error) {
