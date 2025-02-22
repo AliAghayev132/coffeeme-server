@@ -1,0 +1,49 @@
+# Node.js bağımlılıkları
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Çevresel Değişkenler
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Log dosyaları
+logs
+*.log
+logs/*.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+debug.log
+
+# IDE ve Editör Dosyaları
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Çıktı ve geçici dosyalar
+coverage/
+dist/
+out/
+tmp/
+temp/
+
+# İşletim Sistemi Dosyaları
+.DS_Store
+Thumbs.db
+
+# PM2 process dosyaları
+pm2.log
+pm2.pid

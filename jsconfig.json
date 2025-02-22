@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "#root": [
+                "."
+            ],
+            "#utils/*": [
+                "./utils/*"
+            ],
+            "#config/*": [
+                "./config/*"
+            ],
+            "#models/*": [
+                "./models/*"
+            ],
+            "#routes/*": [
+                "./routes/*"
+            ],
+            "#services/*": [
+                "./services/*"
+            ],
+            "#controllers/*": [
+                "./controllers/*"
+            ],
+            "#middlewares/*": [
+                "./middlewares/*"
+            ],
+            "#unit/*": [
+                "./unit/*"
+            ],
+            "#constants/*": [
+                "./constants/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "build"
+    ]
+}

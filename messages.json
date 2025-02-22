@@ -1,0 +1,28 @@
+{
+    "success": {
+        "S200": "Request successful",
+        "S201": "Created successfully",
+        "S202": "Updated successfully",
+        "S204": "No content available"
+    },
+    "error": {
+        "E400": "Bad request",
+        "E401": "Unauthorized access",
+        "E402": "User alreadty registered",
+        "E403": "Invalid type. Must be 'email', 'phoneNumber'",
+        "E404": "Not found",
+        "E405": "Otp not found",
+        "E406": "User not found",
+        "E407": "Invalid credentials",
+        "E408": "Category not found",
+        "E409": "File is missing",
+        "E500": "Internal server error"
+    },
+    "validation": {
+        "V100": "Validation error: Missing fields",
+        "V101": "Validation error: Invalid email format",
+        "V102": "Validation error: Invalid phone number format",
+        "V103": "Validation error: Invalid password format",
+        "V104": "Validation error: New password and old password can not be same"
+    }
+}
