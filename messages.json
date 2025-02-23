@@ -16,6 +16,8 @@
         "E407": "Invalid credentials",
         "E408": "Partner not found",
         "E409": "File is missing",
+        "E410": "Shop not found",
+        "E411": "Product not found",
         "E500": "Internal server error"
     },
     "validation": {

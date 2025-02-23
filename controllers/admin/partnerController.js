@@ -3,6 +3,7 @@ import Partner from "#models/Partner.js";
 import PartnerAccount from "#models/Partner/PartnerAccount.js";
 
 // Services
+import { HashService } from "#services/HashService.js";
 import { MessagesService } from "#services/MessagesService.js";
 import { ValidatorService } from "#services/ValidatorService.js";
 
@@ -48,6 +49,7 @@ const addPartnerAccount = async (req, res) => {
 
         const newPartnerAccount = await PartnerAccount.create({
             ...partnerAccount,
+            password: HashService.HashSync(partnerAccount.password),
             partner: partnerId,
         });
 
@@ -65,12 +67,11 @@ const addPartnerAccount = async (req, res) => {
     }
 };
 
-// Delete Partner Account
 const deletePartnerAccount = async (req, res) => {
     try {
         const { partnerId, accountId } = req.body;
 
-        if (!partnerId || !accountId) { 
+        if (!partnerId || !accountId) {
             return res.status(400).json({ success: false, message: MessagesService.validation.V100 });
         }
 
@@ -101,7 +102,6 @@ const deletePartnerAccount = async (req, res) => {
     }
 };
 
-// Edit Partner Account
 const editPartnerAccount = async (req, res) => {
     try {
         const { partnerAccount, partnerId, accountId } = req.body;

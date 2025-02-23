@@ -1,5 +1,5 @@
 // Enums
-import { accountStatus, gender, membershipLevel } from "#constants/enums/user.js";
+import { accountStatus, gender, membershipLevels } from "#constants/enums/user.js";
 // Variables
 import { Schema, Model } from "#constants/variables.js";
 // Schemas
@@ -59,8 +59,8 @@ const userSchema = new Schema(
         },
         membershipLevel: {
             type: String,
-            enum: membershipLevel,
-            default: membershipLevel[0],
+            enum: membershipLevels,
+            default: membershipLevels[0],
         },
         balance: {
             type: Number,
@@ -73,6 +73,10 @@ const userSchema = new Schema(
         favoriteItems: {
             shops: [{ type: Schema.Types.ObjectId, ref: "Shop" }],
             products: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+        },
+        isDeleted: {
+            type: Boolean,
+            default: false,
         },
         followedShops: [{ type: Schema.Types.ObjectId, ref: "Shop" }],
         actualOrders: [{ type: Schema.Types.ObjectId, ref: "Order" }],

@@ -1,8 +1,12 @@
 // Enums
 import { roles } from "#constants/enums/partner.js";
+import { servingTypes,sizes as cupSizes } from "#constants/enums/common.js";
 
 // Models
 import PartnerAccount from "#models/Partner/PartnerAccount.js";
+
+
+
 
 class ValidatorService {
     static validateEmail(email) {
@@ -144,31 +148,123 @@ class ValidatorService {
         if (!fullName || typeof fullName !== "string" || fullName.trim().length === 0) {
             return { isValid: false, message: "Full name is required and must be a valid string." };
         }
-    
+
         // Validate username
         if (!username || typeof username !== "string" || username.trim().length === 0) {
             return { isValid: false, message: "Username is required and must be a valid string." };
         }
-    
+
         // Check if username already exists
         const existingUsername = await PartnerAccount.findOne({ username });
         if (existingUsername) {
             return { isValid: false, message: "Username already exists. Please choose a different username." };
         }
-    
+
         // Validate password (basic check, you can add more checks for strength)
         if (!password || typeof password !== "string" || password.trim().length === 0) {
             return { isValid: false, message: "Password is required and must be a valid string." };
         }
-    
+
         // Validate role (checking if it's one of the allowed roles)
         const validRoles = roles;
         if (!role || !validRoles.includes(role)) {
             return { isValid: false, message: "Role must be one of the following: seller, admin, or manager." };
         }
-    
+
         return { isValid: true, message: "Partner account validation successful!" };
     };
+
+    static validateProduct({ title, description, servingType, sizes, additionalOptions, shop }) {
+        // Title validation
+        if (!title || typeof title !== "string" || title.trim().length === 0) {
+            return { isValid: false, message: "Product title is required and must be a valid string." };
+        }
+
+        // Description validation
+        if (!description || typeof description !== "string" || description.trim().length === 0) {
+            return { isValid: false, message: "Product description is required and must be a valid string." };
+        }
+
+        // Serving type validation
+        if (!servingType || !servingTypes.includes(servingType)) {
+            return { isValid: false, message: `Serving type must be one of the following: ${servingTypes.join(", ")}.` };
+        }
+
+        // Size validation
+        if (!Array.isArray(sizes) || sizes.length === 0) {
+            return { isValid: false, message: "At least one size is required." };
+        }
+
+        for (const size of sizes) {
+            // Validate size label
+            if (!size.label || !cupSizes.includes(size.label)) {
+                return { isValid: false, message: `Size label must be one of the following: ${cupSizes.join(", ")}.` };
+            }
+
+            // Validate size price
+            if (typeof size.price !== "number" || size.price <= 0) {
+                return { isValid: false, message: "Each size must have a valid positive price." };
+            }
+
+            // Validate size discount rate
+            if (typeof size.discountRate !== "number" || size.discountRate < 0 || size.discountRate > 100) {
+                return { isValid: false, message: "Each size discount rate must be a number between 0 and 100." };
+            }
+
+            // Validate base discount rate
+            if (typeof size.baseDiscountRate !== "number" || size.baseDiscountRate < 0 || size.baseDiscountRate > 100) {
+                return { isValid: false, message: "Each size base discount rate must be a number between 0 and 100." };
+            }
+        }
+
+        // Additional options validation
+        if (additionalOptions && !Array.isArray(additionalOptions)) {
+            return { isValid: false, message: "Additional options must be an array." };
+        }
+
+        if (additionalOptions?.length) {
+            for (const optionSet of additionalOptions) {
+                // Her bir additionalOption öğesini kontrol et
+                if (!optionSet.options || !Array.isArray(optionSet.options)) {
+                    return { isValid: false, message: "Each additional option set must have a valid options array." };
+                }
+
+                if (!optionSet.title || typeof optionSet.title !== "string") {
+                    return { isValid: false, message: "Each option set must have a valid title." };
+                }
+        
+                if (optionSet.description && typeof optionSet.description !== "string") {
+                    return { isValid: false, message: "If description is provided, it must be a string." };
+                }
+                
+        
+                // options dizisini kontrol et
+                for (const option of optionSet.options) {
+                    // Validate additional option title
+                    if (!option.title || typeof option.title !== "string") {
+                        return { isValid: false, message: "Each additional option must have a valid title." };
+                    }
+        
+                    // Validate additional option price
+                    if (typeof option.price !== "number" || option.price <= 0) {
+                        return { isValid: false, message: "Each additional option must have a valid positive price." };
+                    }
+        
+                    // Validate additional option discount rate
+                    if (typeof option.discountRate !== "number" || option.discountRate < 0 || option.discountRate > 100) {
+                        return { isValid: false, message: "Each additional option discount rate must be a number between 0 and 100." };
+                    }
+        
+                    // Validate additional option base discount rate
+                    if (typeof option.baseDiscountRate !== "number" || option.baseDiscountRate < 0 || option.baseDiscountRate > 100) {
+                        return { isValid: false, message: "Each additional option base discount rate must be a number between 0 and 100." };
+                    }
+                }
+            }
+        }
+
+        return { isValid: true, message: "Product validation successful!" };
+    }
 
 }
 

@@ -62,7 +62,7 @@ const createNewShop = async (req, res) => {
         let fileUploadResult = await FileUploadService.Upload({
             file: logo,
             uploadPath: logoPath,
-            newName: newShop._id.toString(),
+            newName: handleFileName({ file: logo, newName: newShop._id }),
         });
 
 

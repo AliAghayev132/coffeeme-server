@@ -91,7 +91,6 @@ const PartnerRouter = Router();
  *                   type: string
  *                   example: "Error restoring shop."
  */
-
 PartnerRouter.get("/", adminAuthenticateToken, partnerController.getAllPartners);
 
 /**

@@ -1,5 +1,5 @@
 const gender = ["male", "female"];
-const accountStatus = ["active", "deleted", "blocked"];
-const membershipLevel = ["standard", "premium", "streakPremium"];
+const accountStatus = ["active", "blocked"];
+const membershipLevels = ["standard", "premium", "streakPremium"];
 
-export { gender, membershipLevel, accountStatus };
+export { gender, membershipLevels, accountStatus };
